@@ -5,10 +5,10 @@
 #define BUTTON_PIN 35
 #define debounceTime 30
 
-const char *city_cname[] = {"基隆", "台北", "桃園", "新竹", "台中",
+const char *city_cname[] = {"開頭","基隆", "台北", "桃園", "新竹", "台中",
                             "彰化", "苗栗", "南投", "嘉義", "台南",
                             "高雄", "屏東", "花蓮", "宜蘭", "台東",
-                            "澎湖", "金門", "馬祖", "綠島", "蘭嶼"};
+                            "澎湖", "金門", "馬祖", "綠島", "蘭嶼","結尾"};
                             
 U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, U8X8_PIN_NONE);
 
@@ -23,33 +23,18 @@ void initU8G2() {
   u8g2.clearBuffer();
 }
 
-const char *head = "開頭>";
-const char *tail = "<結尾";
-int lastCityIdx = (sizeof(city_cname) / sizeof(city_cname[0])) - 1;
+
+int lastCityIdx = (sizeof(city_cname) / sizeof(city_cname[0])) - 1-2;
 char dest[100];
 // formatCitySelect 組合選單文字
 String formatCitySelect(int idx) {
   memset(dest, 0, sizeof(dest));
-  if (idx == 0) {
-    strcat(dest, head);
-    strcat(dest, city_cname[0]);
-    strcat(dest, "<");
-    strcat(dest, city_cname[1]);
-    return dest;
-  }
-  if (idx == lastCityIdx) {
-    strcat(dest, city_cname[lastCityIdx - 1]);
-    strcat(dest, ">");
-    strcat(dest, city_cname[lastCityIdx]);
-    strcat(dest, tail);
-    return dest;
-  }
-
-  strcat(dest, city_cname[idx - 1]);
+  
+  strcat(dest, city_cname[idx+1 - 1]);
   strcat(dest, ">");
-  strcat(dest, city_cname[idx]);
+  strcat(dest, city_cname[idx+1]);
   strcat(dest, "<");
-  strcat(dest, city_cname[idx + 1]);
+  strcat(dest, city_cname[idx +1+ 1]);
 
   return dest;
 }
